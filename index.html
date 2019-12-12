@@ -1,24 +1,15 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-  
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-148842267-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'UA-148842267-1');
-</script>
-
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | My First Unity Game</title>
+    <title>Unity WebGL Player | n0UnityProject</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
     <script src="TemplateData/UnityProgress.js"></script>
     <script src="Build/UnityLoader.js"></script>
     <script>
-      var unityInstance = UnityLoader.instantiate("unityContainer", "Build/models.json", {onProgress: UnityProgress});
+      var unityInstance = UnityLoader.instantiate("unityContainer", "Build/buildWebGL.json", {onProgress: UnityProgress});
     </script>
   </head>
   <body>
@@ -27,7 +18,7 @@
       <div class="footer">
         <div class="webgl-logo"></div>
         <div class="fullscreen" onclick="unityInstance.SetFullscreen(1)"></div>
-        <div class="title">My First Unity Game</div>
+        <div class="title">n0UnityProject</div>
       </div>
     </div>
   </body>
