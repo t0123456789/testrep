@@ -21,6 +21,20 @@
         video {
             display: none;
         }
+		
+		.nav {
+			background-color: pink; 
+			list-style-type: none;
+			text-align: center;
+			margin: 0;
+			padding: 0;
+		}
+
+		.nav li {
+			display: inline-block;
+			font-size: 20px;
+			padding: 20px;
+		}
 
     </style>
 
@@ -30,6 +44,14 @@
 
 	<p>
 	<a href="compat.html">check and debug stuff</a>
+	</p>
+
+	<p>
+	<a href="simple100.html">100% support (according to http://www.iwanttouse.com)</a>
+	</p>
+	
+	<p>
+	<a href="simple.html">Some 2d images and canvas</a>
 	</p>
 	
 	<p>
@@ -59,7 +81,19 @@
 	  <li><a href="https://webglfundamentals.org/webgl/webgl-2d-rectangle-top-left.html">WebGL 1 example: hello world pink rectangle</a></li>
 	  <li><a href="https://webgl2fundamentals.org/webgl/webgl-2d-rectangle-top-left.html">WebGL 2 example: hello world pink rectangle</a></li>
 	  <li><a href="https://threejs.org/examples/?q=pano#webgl_panorama_equirectangular">Three.js example panorama image</a></li>
+	  <li><a href="https://codepen.io/gaearon/pen/gWWZgR?editors=0010">React example</a></li>	  
 	</ul>
+	
+	<p>By default, list items are displayed vertically, use display: inline-block to display them horizontally.</p>
+	<p>should also reposition automatically if you resize the browser window.</p>
+
+	<ul class="nav">
+	  <li><a href="#home">Home</a></li>
+	  <li><a href="#about">About Us</a></li>
+	  <li><a href="#clients">Our Clients</a></li>  
+	  <li><a href="#contact">Contact Us</a></li>
+	</ul>
+
 
 
     <canvas id="glcanvas" width="600" height="460">
