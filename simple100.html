@@ -10,7 +10,19 @@
     <style>
         body {
             margin: 0;
+			color:#000;
+			background:#badaff;
         }
+		section {
+			display:block;
+		}
+		
+		#rotdemo{
+			width:40px;
+			height:40px;
+			background:#333;
+			margin:30px auto;
+		}
 
         canvas {
             display: block;
@@ -48,6 +60,11 @@
 <body>
 
 	<p id="statustext">Status text</p>
+	<p>Rotating an element (by detecting CSS3 or js API animation)...</p>
+	<section>
+	  <p id="rottechnique"></p>
+	  <div id="rotdemo"></div>
+	</section>
 
 	<div> <p>Some p text then just single word in each block... </p>
 	<span class="ib">word</span> 
@@ -126,7 +143,7 @@
 		}
 	</script>
 
-
+	
 
 </body>
 
