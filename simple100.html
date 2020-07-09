@@ -35,21 +35,20 @@
 			border: 1px solid black;    
 			background-color: yellow; 
 		}
-
-
     </style>
+	
+	<!-- Browser vendors that support ES6 modules provide -->
+	<script nomodule>window.nomodules = true;</script>
+	<script>console.log(window.nomodules)</script>
+  
+	<script src="es5script.js"></script>
 
 </head>
 
 <body>
 
-	<h2>display: inline-block</h2>
-	<div> Some text ... 
-	<span class="ib">word</span> 
-	<span class="ib">verylongwordxxxxxxxx</span> 
-	<span class="ib">many verylongwordsxxxxxxxx verylongwordsxxxxxxxx.</span> 
-	<span class="ib">many words xxx x xxxxxx xx xx.</span> 
-	... more text. </div>
+	<p id="statustext">Status text</p>
+
 	<div> <p>Some p text then just single word in each block... </p>
 	<span class="ib">word</span> 
 	<span class="ib">verylongwordxxxxxxxx</span> 
@@ -68,45 +67,62 @@
 	</div>
 	
 	<div style="width:500px;height:100px;border:1px solid #000;">rectangle size 500x100px</div>
+	
+	<p>Some images with border... </p>
 
-	<div style="width:160px;height:40px;border:1px solid #000;">
-		<div style="width:30px;height:30px;border:1px solid #000;">
-		<img id="leaves" width="30" height="30" src="leaves.jpg" alt="Some leaves">
-		</div>
-		<div style="width:30px;height:30px;border:1px solid #000;">
-		<img id="grid" width="30" height="30" src="uvgrid.png" alt="A large grid">
-		</div>
-		<div style="width:30px;height:30px;border:1px solid #000;">
-		<img id="star" width="30" height="30" src="star.jpg" alt="A star">
-		</div>
-		<div style="width:30px;height:30px;border:1px solid #000;">
-		<img id="grid" width="30" height="30" src="uvgrid.png" alt="A large grid">
-		</div>
-	</div>
 	<div style="width:30px;height:30px;border:1px solid #000;">
 		<img id="grid" width="30" height="30" src="uvgrid.png" alt="A large grid">
 	</div>
 	<div style="width:30px;height:30px;border:1px solid #000;">
 		<img id="star" width="30" height="30" src="star.jpg" alt="A star">
 	</div>
-		<div style="width:30px;height:30px;border:1px solid #000;">
+	<div style="width:30px;height:30px;border:1px solid #000;">
 		<img id="leaves" width="30" height="30" src="leaves.jpg" alt="Some leaves">
 	</div>
+	
+	<p>A grid of images in border... </p>
+	
+	<div style="width:300px;height:300px;border:1px solid #000;">
+		<p>Some p text... </p>
+		<div>
+			<span class="imgb"><img id="leaves" width="30" height="30" src="leaves.jpg" alt="Some leaves"></span> 
+			<span class="imgb"><img id="star" width="30" height="30" src="star.jpg" alt="A star"></span> 
+			<span class="imgb"><img id="grid" width="30" height="30" src="uvgrid.png" alt="A large grid"></span> 
+			<span class="imgb"><img id="star" width="30" height="30" src="star.jpg" alt="A star"></span> 
+		</div>
+		<div>
+			<span class="imgb"><img id="leaves" width="30" height="30" src="leaves.jpg" alt="Some leaves"></span> 
+			<span class="imgb"><img id="leaves" width="30" height="30" src="leaves.jpg" alt="Some leaves"></span> 
+			<span class="imgb"><img id="leaves" width="30" height="30" src="leaves.jpg" alt="Some leaves"></span> 
+			<span class="imgb"><img id="leaves" width="30" height="30" src="leaves.jpg" alt="Some leaves"></span> 
+		</div>
+		<div>
+			<span class="imgb"><img id="star" width="30" height="30" src="star.jpg" alt="A star"></span> 
+			<span class="imgb"><img id="star" width="30" height="30" src="star.jpg" alt="A star"></span> 
+			<span class="imgb"><img id="star" width="30" height="30" src="star.jpg" alt="A star"></span> 
+			<span class="imgb"><img id="star" width="30" height="30" src="star.jpg" alt="A star"></span> 
+		</div>
+	</div>
+	
+
 	
 	<p>Image of leaves @20x20:</p>
 	<img id="leaves" width="20" height="20" src="leaves.jpg" alt="Some leaves">
 	
+	<p>drawImage of uv grid inside canvas 300x300:</p>
     <canvas id="myCanvas" width="300" height="300">
         Your browser does not support the HTML5 canvas tag.
     </canvas>
 	
-	<p>drawImage of uv grid inside canvas 300x300:</p>
 	<script>
 		window.onload = function() {
 		  var c = document.getElementById("myCanvas");
 		  var ctx = c.getContext("2d");
 		  var img = document.getElementById("grid");
 		  ctx.drawImage(img, 10, 10);
+		  
+		  var counter = 0;
+		  es5doIt("statustext", counter);
 		}
 	</script>
 
