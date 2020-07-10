@@ -152,17 +152,41 @@ if (checkJsFeatures()) {
 	console.log("ES6 features NOT supported by this browser.");
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/enumerateDevices
+function enumerateDevices() {
+	if (!isEnumerateDevicesSupported()) {
+		return "navigator.mediaDevices NOT supported.";
+	}
+	// List cameras and microphones.
+	navigator.mediaDevices.enumerateDevices()
+	.then(function(devices) {
+	  devices.forEach(function(device) {
+		console.log(device.kind + ": " + device.label +
+					" id = " + device.deviceId);
+	  });
+	})
+	.catch(function(err) {
+	  console.log(err.name + ": " + err.message);
+	});
+}
+
+function isEnumerateDevicesSupported() {
+	return (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices)? true:false;
+}
 
 
 function es5doIt(elemId, data){
 	var strstrict = '<br>Strict mode: ' + isStrictMode().toString();
 	var strfeatures = '<br>JS ECMA6 feature support: ' + checkJsFeatures().toString();
 	var struseragent = '<br>User-agent header: ' + navigator.userAgent;
+	var strenumdevices = '<br>EnumerateDevices support: ' + isEnumerateDevicesSupported().toString();
 	
-	var strmsg = '<b>es5doIt:' + strstrict + strfeatures + struseragent;
+	var strmsg = '<b>es5doIt:' + strstrict + strfeatures + strenumdevices + struseragent;
 
 	console.log(strmsg);
 	display(strmsg);		
+	
+	enumerateDevices();
 	
 	checkAnimation();
 
