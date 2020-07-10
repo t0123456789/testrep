@@ -1,0 +1,102 @@
+<!-- Learn about this code on MDN: https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Basic_2D_animation_example -->
+
+<!doctype html>
+
+<html lang="en">
+<head>
+    <title>M P quiz</title>
+    <meta charset="utf-8">
+
+    <style>
+        body {
+            margin: 0;
+			color:#000;
+			background:#badaff;
+        }
+		section {
+			display:block;
+		}
+		
+		#rotdemo{
+			width:40px;
+			height:40px;
+			background:#333;
+			margin:30px auto;
+		}
+
+        canvas {
+            display: block;
+            border: 2px solid lime;
+            background-color: black;
+        }
+
+        span.ib {
+			display: inline-block;
+			width: 100px;
+			height: 100px;
+			padding: 0px;
+			border: 1px solid blue;    
+			background-color: yellow; 
+		}
+		
+		span.imgb {
+			display: inline-block;
+			width: 30px;
+			height: 30px;
+			padding: 0px;
+			border: 1px solid black;    
+			background-color: yellow; 
+		}
+    </style>
+  
+	<script src="../es5script.js"></script>
+	<script src="client.js"></script>
+
+</head>
+
+<body>
+	<div id="dbgtimer" style="width:300px;height:30px;border:1px solid #000;">300x30px</div>
+
+	<p>Question 1: ...</p>
+	<p>Click the answer:</p>
+	<div> 
+	<span class="ib">&nbsp;<br />word</span> 
+	<span class="ib">( \__/ )<br />( ᵔ ᴥ ᵔ )</span> 
+	<span class="ib">&nbsp;<br />000</span>	
+	<span class="ib">( \__/ )<br />( ᵔ ᴥ ᵔ )</span> 
+	</div>
+
+	<div style="width:60px;height:20px;border:1px solid #000;"></div>
+	<div style="width:60px;height:20px;border:1px solid #000;"></div>	
+	<div style="width:60px;height:60px;border:1px solid #000;background:#bada55;"><p>( )__( )<br>( ᵔ ᴥ ᵔ )</p></div>
+	<div style="width:60px;height:20px;border:1px solid #000;background:#55ff55;"></div>
+	<div style="width:60px;height:20px;border:1px solid #000;background:#ff5555;"></div>
+	<div style="width:60px;height:20px;border:1px solid #000;background:#ffff55;"></div>
+	<div style="width:60px;height:20px;border:1px solid #000;background:#55ff55;"></div>
+
+	<div style="width:500px;height:100px;border:1px solid #000;">rectangle size 500x100px</div>
+
+	<p id="statustext">Status text</p>
+	
+	
+	<p>Rotating an element (by detecting CSS3 or js API animation)...</p>
+	<section>
+	  <p id="rottechnique"></p>
+	  <div id="rotdemo"></div>
+	</section>
+
+
+	<script>
+		window.onload = function() {	  		
+		  var counter = 0;
+		  es5doIt("statustext", counter);
+		  
+		  gameStart();
+		}
+	</script>
+
+	
+
+</body>
+
+</html>

@@ -49,11 +49,15 @@
 		}
     </style>
 	
-	<!-- Browser vendors that support ES6 modules provide -->
-	<script nomodule>window.nomodules = true;</script>
-	<script>console.log(window.nomodules)</script>
-  
+	<!-- A minimum version script can be loaded in legacy browsers without syntax problems.-->
+	<!-- this script can be used to check version support and conditionally load features.-->	
 	<script src="es5script.js"></script>
+	
+	<!-- Browser vendors that support ES6 modules provide 'nomodule' attribute, then these scripts are not executed in browsers that support module scripts.-->
+	<!-- so this is an alternative check & pre ES6 script can be loaded or executed here.-->
+	<script nomodule>window.nomodules = true;</script>
+	<!-- if 'nomodule' script was not executed, window.nomodules is undefined-->
+	<script>console.log(window.nomodules)</script>
 
 </head>
 
@@ -84,6 +88,13 @@
 		<span class="imgb"><img id="grid" width="30" height="30" src="uvgrid.png" alt="A large grid"></span> 
 		<span class="imgb"><img id="star" width="30" height="30" src="star.jpg" alt="A star"></span> 
 	</div>
+	
+	<div><p>Same p text then an image in each block but no spaces in html... </p><!--
+		--><span class="imgb"><img id="leaves" width="30" height="30" src="leaves.jpg" alt="Some leaves"></span><!-- 
+		--><span class="imgb"><img id="star" width="30" height="30" src="star.jpg" alt="A star"></span><!-- 
+		--><span class="imgb"><img id="grid" width="30" height="30" src="uvgrid.png" alt="A large grid"></span><!-- 
+		--><span class="imgb"><img id="star" width="30" height="30" src="star.jpg" alt="A star"></span><!-- 
+	--></div>
 	
 	<div style="width:500px;height:100px;border:1px solid #000;">rectangle size 500x100px</div>
 	
