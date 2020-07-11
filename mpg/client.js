@@ -135,7 +135,7 @@ function setQA(n){
 	var pq = document.getElementById("questiontext");
 	pq.innerHTML = qn.q;
 	
-	for(let i = 0; i < qn.opt.length; i++){ 
+	for(var i = 0; i < qn.opt.length; i++){ 
 	//for(let i = 0; i < 4; i++){ 
 		var idstr = "a"+i;
 		document.getElementById(idstr).innerHTML = qn.opt[i];	
