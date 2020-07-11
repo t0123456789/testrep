@@ -57,14 +57,16 @@
 <body>
 	<div id="dbgtimer" style="width:300px;height:30px;border:1px solid #000;">300x30px</div>
 
-	<p>Question 1: ...</p>
-	<p>Click the answer:</p>
+	<p id="questiontext">Question 1: ...</p>
+	<p id="infotext">Click the answer:</p>
 	<div> 
-	<span class="ib">&nbsp;<br />word</span> 
-	<span class="ib">( \__/ )<br />( ᵔ ᴥ ᵔ )</span> 
-	<span class="ib">&nbsp;<br />000</span>	
-	<span class="ib">( \__/ )<br />( ᵔ ᴥ ᵔ )</span> 
+	<span id="a0" class="ib" onclick="checkAnswer(0)">&nbsp;<br />word</span> 
+	<span id="a1" class="ib" onclick="checkAnswer(1)">( \__/ )<br />( ᵔ ᴥ ᵔ )</span> 
+	<span id="a2" class="ib" onclick="checkAnswer(2)">&nbsp;<br />000</span>	
+	<span id="a3" class="ib" onclick="checkAnswer(3)">( \__/ )<br />( ᵔ ᴥ ᵔ )</span> 
 	</div>
+
+	<p id="scoretext">&nbsp</p>
 
 	<div style="width:60px;height:20px;border:1px solid #000;"></div>
 	<div style="width:60px;height:20px;border:1px solid #000;"></div>	
