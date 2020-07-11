@@ -33,13 +33,9 @@ function startTimer() {
 	}
 }
 
-
-
 function checkAnswer(n){
 	var refqn = client.prog.qnum;	// makes ref vs copy
 
-	console.log( "checkAnswer: ", refqn );
-	
 	switch(getState()) {
 	case "start":
 		setIS(true);
@@ -96,7 +92,6 @@ function checkAnswer(n){
 			setQA(client.prog.qnum);			
 			
 			if(client.prog.qnum==maxidx){
-				// finished!
 				setState("finish");
 			}
 		}
@@ -136,10 +131,8 @@ function setQA(n){
 	pq.innerHTML = qn.q;
 	
 	var i;
-	var maxi = qn.opt.length;
-	
+	var maxi = qn.opt.length;	
 	for( i = 0; i < maxi; i++){ 
-	//for(let i = 0; i < 4; i++){ 
 		var idstr = "a"+i;
 		document.getElementById(idstr).innerHTML = qn.opt[i];	
 	}
@@ -150,9 +143,9 @@ function gameInit(n){
 	var defdata = { name:"default", steps:3, level:0, info:"test something",
 		arr:[
 			{ q: "Hello! Which player?", opt:[ "( \\__/ )<br>( ᵔ ᴥ ᵔ )", "&nbsp;/\\.../\\<br>(o . o)", "&nbsp;<br>~{'v'}~", "( )__( )<br>( ᵔ ᴥ ᵔ )" ], a:0, val:0 },
-			{ q: "question0a2", opt:[ "o0", "o1", "o2", "o3" ], a:2, val:2 },
-			{ q: "question1a3", opt:[ "o10", "o11", "o12", "o13" ], a:3, val:3 },
-			{ q: "question2a0", opt:[ "o20", "o21", "o22", "o23" ], a:0, val:2 },
+			{ q: "2 x 3 = ?", opt:[ "5", "8", "6", "23" ], a:2, val:2 },
+			{ q: "5 + ? = 10", opt:[ "1", "4", "8", "5" ], a:3, val:3 },
+			{ q: "7 x 8 = ?", opt:[ "48", "68", "56", "58" ], a:0, val:2 },
 			{ q: "Finished!", opt:[ "reset", "next", "stats", "anim" ], a:0, val:0 },
 		]};
 		

@@ -140,16 +140,18 @@ if (isStrictMode()) {
 	console.log("strict mode NOT applied by this browser (ES3?).");
 }
   
-if (checkJsFeatures()) {
-    // The engine supports ES6 features you want to use
-    var s = document.createElement('script');
-    s.src = "es6script.js";
-    document.head.appendChild(s);
-	console.log("ES6 features are supported by this browser.");
-} else {
-    // The engine doesn't support those ES6 features
-    // Use ES5 
-	console.log("ES6 features NOT supported by this browser.");
+function safeLoadEs6() {
+	if (checkJsFeatures()) {
+		// The engine supports ES6 features you want to use
+		var s = document.createElement('script');
+		s.src = "es6script.js";
+		document.head.appendChild(s);
+		console.log("ES6 features are supported by this browser.");
+	} else {
+		// The engine doesn't support those ES6 features
+		// Use ES5 
+		console.log("ES6 features NOT supported by this browser.");
+	}
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/enumerateDevices
