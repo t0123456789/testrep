@@ -54,16 +54,19 @@
 			height: 100px;
 			padding: 0px;
 			border: 1px solid blue;
-			background-image: url('coin.png')			
+			background-image: url('coin.png');	
+			background-size: contain;	
+			z-index: 1;
 		}
-		span.ibc:hover:after {
-			content: ' ';
-			position: absolute;
-			left: 0;
-			right: 0;
-			top: 0;
-			bottom: 0;
-			background-color: rgba(0,0,0,.5);
+		
+		/* if multiple attr names are supported it uses the latest setting. */
+		span.ibc:hover {
+			background-image: -moz-linear-gradient(top, rgba(255, 0, 0, 0.5), rgba(255, 0, 0, 0.5)), url("coin.png");
+			background-image: -o-linear-gradient(top, rgba(255, 0, 0, 0.5), rgba(255, 0, 0, 0.5)), url("coin.png");
+			background-image: -ms-linear-gradient(top, rgba(255, 0, 0, 0.5), rgba(255, 0, 0, 0.5)), url("coin.png");
+			background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 255, 0.5)), to(rgba(0, 0, 255, 0.5))), url("coin.png");
+			background-image: -webkit-linear-gradient(top, rgba(0, 0, 255, 0.5), rgba(0, 0, 255, 0.5)), url("coin.png");
+			background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url("coin.png");
 		}
 		
 		span.iba {
@@ -72,11 +75,29 @@
 			height: 100px;
 			padding: 0px;
 			border: 1px solid blue;
-			background-image: url('alpha.png')			
+			background-image: url('alpha.png');	
+			background-size: contain;			
+		}
+		
+		span.iba:hover {
+			background-image: linear-gradient(to bottom, rgba(0, 255, 0, 0.5), rgba(0, 255, 0, 0.5)), url("alpha.png");
 		}
 		
     </style>
 	
+		<!-- this css, changes everything except the block 
+		span.ibc:hover:after {
+			content: ' ';
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			background-color: rgba(0,0,0,.5);
+			z-index: -1;
+		}
+		-->
+		
 	<!-- A minimum version script can be loaded in legacy browsers without syntax problems.-->
 	<!-- this script can be used to check version support and conditionally load features.-->	
 	<script src="es5script.js"></script>
@@ -110,10 +131,10 @@
 	
 	<p>Various image, alpha layer, transparency on hover, etc in each block... </p>
 	<div> 	
-	<span class="iba">&nbsp;<br />word</span> 
-	<span class="iba">( \__/ )<br />( ᵔ ᴥ ᵔ )</span> 
-	<span class="ibc">&nbsp;<br />000</span>	
+	<span class="ibc">&nbsp;<br />word</span> 
 	<span class="ibc">( \__/ )<br />( ᵔ ᴥ ᵔ )</span> 
+	<span class="iba">&nbsp;<br />000</span>	
+	<span class="iba">( \__/ )<br />( ᵔ ᴥ ᵔ )</span> 
 	</div>
 	
 	
