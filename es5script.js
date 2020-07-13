@@ -176,6 +176,14 @@ function isEnumerateDevicesSupported() {
 	return (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices)? true:false;
 }
 
+function es5toggleBlock(elemId) {
+  var x = document.getElementById(elemId);
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+} 
 
 function es5doIt(elemId, data){
 	var strstrict = '<br>Strict mode: ' + isStrictMode().toString();
