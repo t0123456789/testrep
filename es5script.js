@@ -4,9 +4,10 @@
 
 "use strict";	// "use strict" directive is new in ECMAScript version 5, ignored in <ECMA5, in ECMA6 it is default.
 
-// check js version dependent feature support for es6 syntax (eg. Symbol objects, class keyword and arrow functions) 
+// check js version dependent feature support for ES6 syntax (eg. Symbol objects, class keyword and arrow functions) 
 // 		this is done using the eval() function or other equivalents (e.g. Function() ), 
 //  	because writing invalid syntax will stop the script before its execution. 
+//		ES6 = ECMAScript version 6, maybe aka ECMAScript 2015 
 function checkJsFeatures() {
     //if (typeof Symbol == "undefined") return false;
     try {
