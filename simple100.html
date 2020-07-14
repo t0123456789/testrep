@@ -8,10 +8,15 @@
     <meta charset="utf-8">
 
     <style>
+	
+		:root {
+			--main-bg-color: #badaff;
+		}
+
         body {
             margin: 0;
 			color:#000;
-			background:#badaff;
+			background:var(--main-bg-color);
         }
 		section {
 			display:block;
@@ -49,6 +54,7 @@
 		}
 		
 		span.ibc {
+			position: relative;
 			display: inline-block;
 			width: 100px;
 			height: 100px;
@@ -57,6 +63,10 @@
 			background-image: url('coin.png');	
 			background-size: contain;	
 			z-index: 1;
+		}
+		
+		span.ibc:active {
+			background-image: linear-gradient(to bottom, rgba(255, 155, 0, 0.5), rgba(255, 155, 0, 0.5)), url("coin.png");
 		}
 		
 		/* if multiple attr names are supported it uses the latest setting. */
@@ -81,6 +91,19 @@
 		
 		span.iba:hover {
 			background-image: linear-gradient(to bottom, rgba(0, 255, 0, 0.5), rgba(0, 255, 0, 0.5)), url("alpha.png");
+		}
+		span.iba:active {
+			background-image: linear-gradient(to bottom, rgba(0, 255, 0, 0.5), rgba(0, 255, 0, 0.5)), url("alpha.png");
+		}
+		
+		div.absolute {
+			position: absolute;
+			top: 50px;
+			right: 0;
+			width: 50px;
+			height: 50px;
+			background-image: url('alpha.png');	
+			background-size: contain;
 		}
 		
     </style>
@@ -118,10 +141,21 @@
 	<div id="myDIV">
 	  This is my DIV element.
 	</div> 
-	<button onclick="es5toggleBlock('myTEXT')">Click Me to toggle p element</button>
+	<button onclick="es5toggleBlock('alphaimg')">Click Me to alpha image element</button>
 	<p id="myTEXT">
 	  This is my p element.
 	</p> 
+	
+	<!-- if outer div style=position: relative is defined, absolute img is positioned wrt to outer div, otherwise absolute img is positioned wrt to page-->
+	<div style="width:100px;height:100px;border:1px solid #000;position: relative">100x100px
+		<div class="absolute" id="alphaimg">alpha image</div>
+	</div>
+
+	
+	<button onclick="es5ImageOnElem('findit', 'alphaimg')">Click Me to locate the element with id='findit' and draw alpha image on it.</button>
+	<span class="ibc" id="findit">
+	  findit span
+	</span> 
 
 	<p>Rotating an element (by detecting CSS3 or js API animation)...</p>
 	<section>
@@ -183,7 +217,7 @@
 		<p>Some p text... </p>
 		<div>
 			<span class="imgb"><img id="leaves" width="30" height="30" src="leaves.jpg" alt="Some leaves"></span> 
-			<span class="imgb"><img id="star" width="30" height="30" src="star.jpg" alt="A star"></span> 
+			<span class="imgb"><img id="acoin" width="30" height="30" src="alpha.png" alt="Coins with alpha"></span> 
 			<span class="imgb"><img id="grid" width="30" height="30" src="uvgrid.png" alt="A large grid"></span> 
 			<span class="imgb"><img id="star" width="30" height="30" src="star.jpg" alt="A star"></span> 
 		</div>
@@ -262,6 +296,8 @@
 		  var ctx = c.getContext("2d");
 		  var img = document.getElementById("grid");
 		  ctx.drawImage(img, 10, 10);
+		  var imga = document.getElementById("acoin");
+		  ctx.drawImage(imga, 0, 0);
 		  
 		  var counter = 0;
 		  es5doIt("statustext", counter);

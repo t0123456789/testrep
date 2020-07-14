@@ -177,13 +177,21 @@ function isEnumerateDevicesSupported() {
 }
 
 function es5toggleBlock(elemId) {
-  var x = document.getElementById(elemId);
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
+	var x = document.getElementById(elemId);
+	if (x.style.display === "none") {
+		x.style.display = "block";
+	} else {
+		x.style.display = "none";
+	}
 } 
+
+function es5ImageOnElem(elemId, imgId) {
+	var x = document.getElementById(elemId);
+	var img = document.getElementById(imgId);
+	//x.getBoundingClientRect();
+	x.appendChild(img);
+	
+}
 
 function es5doIt(elemId, data){
 	var strstrict = '<br>Strict mode: ' + isStrictMode().toString();
