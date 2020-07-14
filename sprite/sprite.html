@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Canvas check</title>
+    <meta charset="utf-8">
+
+    <style>
+
+        body {
+            margin: 0;
+			color:#000;
+			background:#badaff;
+        }
+		        
+		canvas {
+            display: block;
+            border: 2px solid lime;
+            background-color: black;
+        }
+		
+	</style>
+</head>
+
+<body>
+
+	<img id="leaves" width="300" height="100" src="leaves.jpg" alt="Some leaves">
+	<img id="acoin" width="30" height="30" src="alpha.png" alt="Coins with alpha">
+
+
+	<p>drawImage of uv grid inside canvas 300x300:</p>
+    <canvas id="myCanvas" width="300" height="300">
+        Your browser does not support the HTML5 canvas tag.
+    </canvas>
+	
+	<script>
+	
+		window.onload = function() {
+			var c = document.getElementById("myCanvas");
+			var ctx = c.getContext("2d");
+			if(ctx){
+				drawScene(ctx);
+			} else {
+				console.log("Error: CanvasRenderingContext2D not valid.");
+			}  	  	
+		}
+		
+		function drawScene(ctx){
+		
+			// filled, erased then outlined
+			ctx.fillStyle = 'rgb(0, 255, 0)';
+			ctx.fillRect(25, 25, 100, 100);
+			ctx.clearRect(45, 45, 60, 60);
+			ctx.strokeRect(50, 50, 50, 50);
+			// intersecting rects, opaque red & transparent blue
+		    ctx.fillStyle = 'rgb(200, 0, 0)';
+			ctx.fillRect(10, 210, 50, 50);	// xy origin is left,top corner. rect params are: (posx,posy,w,h)
+			ctx.fillStyle = 'rgba(0, 0, 200, 0.5)';
+			ctx.fillRect(30, 230, 50, 50);
+			
+			// Create gradient 
+			var lingrad = ctx.createLinearGradient(0, 0, 0, 200); // gradient between start and end points (startx,starty,endx,endy)
+			lingrad.addColorStop(0, '#00ABEB');	// setup interpolate color from start=0 to end=1
+			lingrad.addColorStop(0.8, '#fff');
+			lingrad.addColorStop(0.8, '#a6e0ff');
+			lingrad.addColorStop(1, '#26C000');
+			ctx.fillStyle = lingrad;
+			ctx.fillRect(150, 0, 150, 200);
+		
+			// images
+			var img = document.getElementById("leaves");
+			ctx.drawImage(img, 150, 200, 150, 100);
+			var imga = document.getElementById("acoin");
+			ctx.drawImage(imga, 150, 150);	
+		}
+		
+	</script>
+	
+</body>
+</html>
