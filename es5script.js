@@ -194,6 +194,41 @@ function es5ImageOnElem(elemId, imgId) {
 	
 }
 
+function setupPlayCssAnim() {
+	var x = document.getElementsByClassName('box')[0];
+	if(x.classList) {
+		console.log("element.classList is supported by this browser.");
+	} else {
+		console.log("element.classList is NOT supported by this browser.");			
+	}
+	
+	document.getElementsByClassName('toggleButton')[0].onclick = function() {
+	  if(this.innerHTML === 'Play') 
+	  { 
+		this.innerHTML = 'Pause';
+		if(x.classList) {
+			x.classList.add('horizTranslate');
+		} else {
+			var name = "horizTranslate";
+			arr = x.className.split(" ");
+			if (arr.indexOf(name) == -1) {
+				x.className += " " + name;
+			}
+		}
+	  } else {
+		this.innerHTML = 'Play';
+		var computedStyle = window.getComputedStyle(x),
+			marginLeft = computedStyle.getPropertyValue('margin-left');
+		x.style.marginLeft = marginLeft;
+		if(x.classList) {
+			x.classList.remove('horizTranslate');    
+		} else {
+			x.className = x.className.replace(/\bhorizTranslate\b/g, ""); // For IE9 and earlier
+		}
+	  }  
+	}
+}
+
 function es5doIt(elemId, data){
 	var strstrict = '<br>Strict mode: ' + isStrictMode().toString();
 	var strfeatures = '<br>JS ECMA6 feature support: ' + checkJsFeatures().toString();
@@ -208,6 +243,8 @@ function es5doIt(elemId, data){
 	enumerateDevices();
 	
 	checkAnimation();
+	
+	setupPlayCssAnim();
 
 	function display(msg) {
 		if(document.body) {				

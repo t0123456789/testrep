@@ -45,35 +45,6 @@
 	
 	<script>
 	
-	/*
-		function checkImageLoading(){
-			var imgfile = ["p1.png", "p2.png"];
-			var image = [];
-			
-			function loadImages(){
-				var imageMax = imgfile.length;
-				var imageLoaded = 0;
-				var i;
-				for(i=0; i<imageCount; i++){
-					image[i] = new Image();
-					image[i].onload = function(){
-						imagesLoaded++;
-						if(imagesLoaded == imageMax){
-							allLoaded();
-						}
-					}
-				}
-			}
-			
-			function allLoaded(){
-				drawImages();
-			}
-		}
-		
-			*/
-
-
-	
 		window.onload = function() {
 			var c = document.getElementById("myCanvas");
 			var ctx = c.getContext("2d", { alpha: false });
@@ -101,7 +72,7 @@
 		}
 		var count = 0;
 		var ecount = 0;
-	
+
 		
 		function drawScene(canvas, ctx){
 		

@@ -2,9 +2,9 @@
 
 
 
-function gameInit(n){
+function menuInit(n){
 	
-	var defdata = { name:"default", steps:3, level:0, info:"test something",
+	var defaultdata = { name:"default", steps:3, level:0, info:"test something",
 		arr:[
 			{ q: "Hello! Which player?", opt:[ "( \\__/ )<br>( ᵔ ᴥ ᵔ )", "/\\.../\\<br>(o . o)", "&nbsp;<br>~{'v'}~", "( )__( )<br>( ᵔ ᴥ ᵔ )" ], a:0, val:0 },
 			{ q: "2 x 3 = ?", opt:[ "5", "8", "6", "23" ], a:2, val:6 },
@@ -13,10 +13,17 @@ function gameInit(n){
 			{ q: "Finished!", opt:[ "reset", "next", "pet", "compete" ], a:0, val:0 },
 		]};
 		
-	var quiz = defdata;
-	return quiz;
+	var scenemenu = { name:"pets", steps:0, level:0, info:"test scene",
+		arr:[
+			{ q: "Pets love a good environment! Something to do?", opt:[ "back", "decor", "shop",  "plan" ], a:0, val:0 },
+			{ q: "Plan your day: 1st", opt:[ "feed", "clean", "exercise", "treat" ], a:0, val:0 },
+			{ q: "Plan your day: 2nd", opt:[ "feed", "clean", "exercise", "treat" ], a:0, val:0 },
+			{ q: "Plan your day: 3rd", opt:[ "feed", "clean", "exercise", "treat" ], a:0, val:0 },
+		]};
+		
+	if(n==1) { return scenemenu; }		
+	return defaultdata;
 }
-
 
 var client = {};
 client.t = 0;
@@ -24,6 +31,16 @@ client.dt = 0;
 client.interdt = 500;
 client.maxstrike = 3;
 client.prog = { score:0, qnum:0, level:0, strike:0, acc:0, star:0, state:"none" };
+
+
+
+function gameStart(){
+	
+	var intervalId = setInterval(startTimer, client.interdt);
+	client.quiz = menuInit(0);	
+	vsetQA(0);
+	setState("start");
+}
 
 
 function startTimer() {
@@ -56,6 +73,7 @@ function checkAnswer(n){
 	switch(getState()) {
 	case "start":
 		vsetIS(true);
+		vsetAxStyle("coin");
 		setState("ready");
 		nextQuestion();
 		break;
@@ -64,11 +82,13 @@ function checkAnswer(n){
 			case 0:
 				vsetBlockDisplay("scoretext", false);
 				client.prog.qnum = 0;
+				vsetAxStyle("ib");
 				vsetQA(0);
 				setState("start");
 				break;
 			case 1:
 				client.prog.qnum = 1;
+				vsetAxStyle("coin");
 				vsetQA(1);
 				setState("ready");
 				break;
@@ -90,8 +110,13 @@ function checkAnswer(n){
 	}
 	
 	function updateScore(inc){
+		var stk = client.prog.strike;
+		if(stk>0){
+			inc -= stk*inc/client.maxstrike; // reduce score depending on num of strikes (all js numbers are float)
+			stk = 0;	// reset strikes for each q
+		}
 		client.prog.score += inc;
-		client.prog.strike=0;	// reset strikes for each q
+		feedbackAnim("correct", inc);
 		nextQuestion();
 	}
 	
@@ -99,8 +124,11 @@ function checkAnswer(n){
 		client.prog.strike += inc;
 		if(client.prog.strike==client.maxstrike){
 			client.prog.strike=0;
+			feedbackAnim("fail");
 			nextQuestion();
-		}			
+		} else {	
+			feedbackAnim("again");
+		}
 	}
 	
 	function nextQuestion(){	
@@ -110,6 +138,7 @@ function checkAnswer(n){
 			vsetQA(client.prog.qnum);			
 			
 			if(client.prog.qnum==maxidx){
+				vsetAxStyle("ib");
 				setState("finish");
 				vsetBlockDisplay("infotext", true);
 			}
@@ -117,19 +146,32 @@ function checkAnswer(n){
 	}
 }
 
-function gameStart(){
-	
-	var intervalId = setInterval(startTimer, client.interdt);
-	client.quiz = gameInit(0);	
-	vsetQA(0);
-	setState("start");
-}
 
 function setState(s){
 	client.prog.state = s;
 }
 function getState(){
 	return client.prog.state;
+}
+
+function feedbackAnim(res) {
+	switch(res) {
+		case "correct":
+			break;
+		case "again":
+			break;	
+		case "fail":
+			break;			
+	}
+}
+
+function vsetAxStyle(skin){
+	var maxi = 4;	
+	var i;
+	for( i = 0; i < maxi; i++){ 
+		var idstr = "a"+i;
+		document.getElementById(idstr).className = skin;
+	}
 }
 
 function vsetIS(reset){
@@ -173,19 +215,3 @@ function vsetElemBlockDisplay(elem, enable) {
   }
   //elem.style.display = (enable)? "block":"none";  
 } 
-
-function gameInit(n){
-	
-	var defdata = { name:"default", steps:3, level:0, info:"test something",
-		arr:[
-			{ q: "Hello! Which player?", opt:[ "( \\__/ )<br>( ᵔ ᴥ ᵔ )", "/\\.../\\<br>(o . o)", "&nbsp;<br>~{'v'}~", "( )__( )<br>( ᵔ ᴥ ᵔ )" ], a:0, val:0 },
-			{ q: "2 x 3 = ?", opt:[ "5", "8", "6", "23" ], a:2, val:6 },
-			{ q: "5 + ? = 10", opt:[ "1", "4", "8", "5" ], a:3, val:5 },
-			{ q: "7 x 8 = ?", opt:[ "48", "68", "56", "58" ], a:2, val:56 },
-			{ q: "Finished!", opt:[ "reset", "next", "pet", "compete" ], a:0, val:0 },
-		]};
-		
-	var quiz = defdata;
-	
-	return quiz;
-}
