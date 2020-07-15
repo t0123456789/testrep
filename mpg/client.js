@@ -1,7 +1,24 @@
 "use strict";
 
-var client = {};
 
+
+function gameInit(n){
+	
+	var defdata = { name:"default", steps:3, level:0, info:"test something",
+		arr:[
+			{ q: "Hello! Which player?", opt:[ "( \\__/ )<br>( ᵔ ᴥ ᵔ )", "/\\.../\\<br>(o . o)", "&nbsp;<br>~{'v'}~", "( )__( )<br>( ᵔ ᴥ ᵔ )" ], a:0, val:0 },
+			{ q: "2 x 3 = ?", opt:[ "5", "8", "6", "23" ], a:2, val:6 },
+			{ q: "5 + ? = 10", opt:[ "1", "4", "8", "5" ], a:3, val:5 },
+			{ q: "7 x 8 = ?", opt:[ "48", "68", "56", "58" ], a:2, val:56 },
+			{ q: "Finished!", opt:[ "reset", "next", "pet", "compete" ], a:0, val:0 },
+		]};
+		
+	var quiz = defdata;
+	return quiz;
+}
+
+
+var client = {};
 client.t = 0;
 client.dt = 0;
 client.interdt = 500;
@@ -165,7 +182,7 @@ function gameInit(n){
 			{ q: "2 x 3 = ?", opt:[ "5", "8", "6", "23" ], a:2, val:6 },
 			{ q: "5 + ? = 10", opt:[ "1", "4", "8", "5" ], a:3, val:5 },
 			{ q: "7 x 8 = ?", opt:[ "48", "68", "56", "58" ], a:2, val:56 },
-			{ q: "Finished!", opt:[ "reset", "next", "stats", "compete" ], a:0, val:0 },
+			{ q: "Finished!", opt:[ "reset", "next", "pet", "compete" ], a:0, val:0 },
 		]};
 		
 	var quiz = defdata;

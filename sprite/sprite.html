@@ -33,24 +33,72 @@
 	<a href="animint.html">Test animated sprites using setInterval().</a>
 	</p>
 
-	<p>drawImage of uv grid inside canvas 300x300:</p>
+	
+	
+	<p>Test 2d drawing and click position inside canvas 300x300:</p>
+	<p id="error"> <p>
+	<p id="debug">debug print... <p>
+	
     <canvas id="myCanvas" width="300" height="300">
         Your browser does not support the HTML5 canvas tag.
     </canvas>
 	
 	<script>
 	
+	/*
+		function checkImageLoading(){
+			var imgfile = ["p1.png", "p2.png"];
+			var image = [];
+			
+			function loadImages(){
+				var imageMax = imgfile.length;
+				var imageLoaded = 0;
+				var i;
+				for(i=0; i<imageCount; i++){
+					image[i] = new Image();
+					image[i].onload = function(){
+						imagesLoaded++;
+						if(imagesLoaded == imageMax){
+							allLoaded();
+						}
+					}
+				}
+			}
+		}
+			*/
+
+
+	
 		window.onload = function() {
 			var c = document.getElementById("myCanvas");
-			var ctx = c.getContext("2d");
+			var ctx = c.getContext("2d", { alpha: false });
 			if(ctx){
-				drawScene(ctx);
+				drawScene(c, ctx);
 			} else {
 				console.log("Error: CanvasRenderingContext2D not valid.");
 			}  	  	
 		}
 		
-		function drawScene(ctx){
+		var input = {
+			rx: 0,
+			ry: 0,           
+            mx: 0,
+            my: 0,
+            cx: 0,
+            cy: 0
+            };
+			
+		window.onmousemove = function(e) {
+			input.mx = e.clientX;
+			input.my = e.clientY;
+			var mstr = "mousemove: "+ input.mx +","+ input.my;
+			printFunction(e, mstr);
+		}
+		var count = 0;
+		var ecount = 0;
+	
+		
+		function drawScene(canvas, ctx){
 		
 			// filled, erased then outlined
 			ctx.fillStyle = 'rgb(0, 255, 0)';
@@ -76,8 +124,48 @@
 			var img = document.getElementById("leaves");
 			ctx.drawImage(img, 150, 200, 150, 100);
 			var imga = document.getElementById("acoin");
-			ctx.drawImage(imga, 150, 150);	
+			ctx.drawImage(imga, 150, 150);
+			
+			if (canvas.addEventListener) {                // For all major browsers, except IE 8 and earlier
+				canvas.addEventListener("click", function(e) { 
+					updateInputCanvasXY(e);
+					printFunction(e, "addEventListener clicked"); 
+				} );
+			} else if (canvas.attachEvent) {              // For IE 8 and earlier versions
+				canvas.attachEvent("onclick", function(e) { 
+					updateInputCanvasXY(e);
+					printFunction(e, "attachEvent clicked"); } );
+			} else {
+				printError("canvas.addEventListener or canvas.attachEvent NOT supported.");
+			}			
+
+			function updateInputCanvasXY(e) {
+				if(canvas.getBoundingClientRect){
+					var r = canvas.getBoundingClientRect();
+					input.rx = r.left;
+					input.ry = r.top;
+				} else {
+					printError("canvas.getBoundingClientRect NOT supported.");
+					// ?recurse parent elements .clientTop and .clientLeft
+				}	
+				input.cx = e.clientX - input.rx;
+				input.cy = e.clientY - input.ry;
+			}
 		}
+		
+		function printFunction(e, src) {
+			var position = " x,y: "+input.cx+","+input.cy+" exy: "+e.clientX+","+e.clientY + " canvasxy: "+input.rx+","+input.ry;
+			document.getElementById("debug").innerHTML = "debug print "+ count + ": "+ src + position;
+			count++;
+		}	
+
+		function printError(src) {
+			document.getElementById("error").innerHTML = "Error print "+ ecount + ": "+ src;
+			ecount++;
+			console.log(src);
+		}		
+
+		
 		
 	</script>
 	
