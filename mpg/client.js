@@ -13,12 +13,14 @@ function menuInit(n){
 			{ q: "Finished!", opt:[ "reset", "next", "pet", "compete" ], a:0, val:0 },
 		]};
 		
-	var scenemenu = { name:"pets", steps:0, level:0, info:"test scene",
+	var scenemenu = { name:"pets", steps:3, level:0, info:"test scene",
 		arr:[
-			{ q: "Pets love a good environment! Something to do?", opt:[ "back", "decor", "shop",  "plan" ], a:0, val:0 },
+			{ q: "Pets love to relax after training! Something to do?", opt:[ "back", "decor", "shop", "items" ], a:0, val:0 },
 			{ q: "Plan your day: 1st", opt:[ "feed", "clean", "exercise", "treat" ], a:0, val:0 },
 			{ q: "Plan your day: 2nd", opt:[ "feed", "clean", "exercise", "treat" ], a:0, val:0 },
 			{ q: "Plan your day: 3rd", opt:[ "feed", "clean", "exercise", "treat" ], a:0, val:0 },
+			{ q: "Ready?", opt:[ "forget it", "replan", "do it", " " ], a:0, val:0 },
+			{ q: "Finished!", opt:[ "reset", "next", "pet", "compete" ], a:0, val:0 },
 		]};
 		
 	if(n==1) { return scenemenu; }		
@@ -40,6 +42,7 @@ function gameStart(){
 	vsetIconHide();
 	
 	client.quiz = menuInit(0);	
+	vsetBlockDisplay("scoretext", false);
 	vsetBlockDisplay("player", false);
 	vsetQA(0);
 	setState("start");
@@ -92,14 +95,21 @@ function checkAnswer(n){
 				setState("start");
 				break;
 			case 1:
+				// single player, get level
 				client.prog.qnum = 1;
-				vsetBlockDisplay("player", false);
 				vsetAxStyle("coin");
 				vsetQA(1);
 				setState("ready");
 				break;
 			case 2:
+				// show canvas scene
 			case 3:
+				// multi player, get level & opponents
+				client.prog.qnum = 1;
+				vsetAxStyle("coin");
+				vsetQA(1);
+				setState("ready");
+				break;
 			default:
 				break;
 		}
@@ -162,7 +172,7 @@ function getState(){
 }
 
 function feedbackAnim(res, num) {
-	var waitms = 3000;
+	var waitms = 1000;
 	vsetAnswerButtonsActive(false);
 	var msg = "feedback";
 	
@@ -255,6 +265,7 @@ function vsetIS(info){
 		infoelem.innerHTML = "Click the answer:";	
 		vsetElemBlockDisplay(infoelem, true);
 		vsetBlockDisplay("scoretext", true);
+		vsetBlockDisplay("player", true);
 	}
 	else if(info=="feedback"){
 		infoelem.innerHTML = "feedback: waiting ...";	
