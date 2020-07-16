@@ -196,6 +196,11 @@ function es5ImageOnElem(elemId, imgId) {
 
 function setupPlayCssAnim() {
 	var x = document.getElementsByClassName('box')[0];
+	if(!x) {
+		console.log("setupPlayCssAnim: cannot find box element.");
+		return;
+	}
+	
 	if(x.classList) {
 		console.log("element.classList is supported by this browser.");
 	} else {

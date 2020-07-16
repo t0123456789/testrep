@@ -37,6 +37,8 @@ client.prog = { score:0, qnum:0, level:0, strike:0, acc:0, star:0, state:"none" 
 function gameStart(){
 	
 	var intervalId = setInterval(startTimer, client.interdt);
+	vsetIconHide();
+	
 	client.quiz = menuInit(0);	
 	vsetQA(0);
 	setState("start");
@@ -68,11 +70,12 @@ function startTimer() {
 }
 
 function checkAnswer(n){
-	var refqn = client.prog.qnum;	// makes ref vs copy
+	var refqn = client.prog.qnum;	
+	// js assign op: For primitive types, makes a copy with same value. For object, makes ref to same underlying data
 
 	switch(getState()) {
 	case "start":
-		vsetIS(true);
+		vsetIS("reset");
 		vsetAxStyle("coin");
 		setState("ready");
 		nextQuestion();
@@ -105,47 +108,48 @@ function checkAnswer(n){
 		}else{
 			updateStrike(1);
 		}
-		vsetIS(false);
+		vsetIS();
 		break;
 	}
 	
 	function updateScore(inc){
-		var stk = client.prog.strike;
-		if(stk>0){
-			inc -= stk*inc/client.maxstrike; // reduce score depending on num of strikes (all js numbers are float)
-			stk = 0;	// reset strikes for each q
+		if(client.prog.strike>0){
+			inc -= client.prog.strike*inc/client.maxstrike; // reduce score depending on num of strikes (all js numbers are float)
+			client.prog.strike = 0;	// reset strikes for each q
+			inc = Math.ceil(inc);
 		}
 		client.prog.score += inc;
+		vsetIconOnAnswer("abs tick", n);
 		feedbackAnim("correct", inc);
-		nextQuestion();
 	}
 	
 	function updateStrike(inc){
 		client.prog.strike += inc;
+		vsetIconOnAnswer("abs cross", n);
 		if(client.prog.strike==client.maxstrike){
 			client.prog.strike=0;
 			feedbackAnim("fail");
-			nextQuestion();
 		} else {	
-			feedbackAnim("again");
-		}
-	}
-	
-	function nextQuestion(){	
-		client.prog.qnum++;
-		var maxidx = client.quiz.arr.length-1;
-		if(client.prog.qnum<=maxidx){
-			vsetQA(client.prog.qnum);			
-			
-			if(client.prog.qnum==maxidx){
-				vsetAxStyle("ib");
-				setState("finish");
-				vsetBlockDisplay("infotext", true);
-			}
+			feedbackAnim("again", client.maxstrike-client.prog.strike);
 		}
 	}
 }
 
+function nextQuestion(){	
+	client.prog.qnum++;
+	var maxidx = client.quiz.arr.length-1;
+	vsetIconHide();
+	if(client.prog.qnum<=maxidx){
+		vsetQA(client.prog.qnum);			
+		
+		if(client.prog.qnum==maxidx){
+			vsetAxStyle("ib");
+			setState("finish");
+			vsetBlockDisplay("infotext", true);
+		}
+	}
+	vsetAnswerButtonsActive(true);
+}
 
 function setState(s){
 	client.prog.state = s;
@@ -154,15 +158,70 @@ function getState(){
 	return client.prog.state;
 }
 
-function feedbackAnim(res) {
+function feedbackAnim(res, num) {
+	var waitms = 1000;
+	vsetAnswerButtonsActive(false);
+	var msg = "feedback";
+	
 	switch(res) {
 		case "correct":
+			msg = "Correct!  +"+num+" coins.";
+			vsetIS(msg);
+			setTimeout(nextQuestion, waitms);
 			break;
 		case "again":
+			msg = "Whoops, think again.  +"+num+" more chances.";
+			vsetIS(msg);
+			setTimeout(function(){ vsetAnswerButtonsActive(true); } , waitms);
 			break;	
 		case "fail":
+			msg = "Wrong answer.  Let's move on...";
+			vsetIS(msg);
+			setTimeout(nextQuestion, waitms);
 			break;			
 	}
+}
+
+function vsetIconOnAnswer(iconSkin, n) {
+	var i = document.getElementById("icon");
+	i.style.display = "block";
+	i.className = iconSkin;
+	var idstr = "a"+n;
+	var x = document.getElementById(idstr);
+	x.appendChild(i);
+} 
+function vsetIconHide() {
+	var i = document.getElementById("icon");
+	var x = document.getElementById("iconhide");
+	x.appendChild(i);
+	//i.style.display = "none";
+} 
+
+function vsetAnswerButtonsActive(enable) {
+	var maxi = 4;	
+	var i;
+	for( i = 0; i < maxi; i++){ 
+		var idstr = "a"+i;
+		//document.getElementById(idstr).disabled = !enable;	//only for buttons?
+		if(enable) {
+			//document.getElementById(idstr).onclick = function() { checkAnswer(i); }; 
+			// js lambda scope is function-level, not block-level, so context when fn is created is at end of scope, then function-level variable i has the value 5. Fix: add createfn(i) or wrap in extra closure...
+			document.getElementById(idstr).onclick = (function(tmp) { 
+												return function() { checkAnswer(tmp); }
+											})(i);
+		} else {
+			document.getElementById(idstr).onclick = null;
+		}
+	}	
+	
+	if(enable) {
+		vsetIconHide();
+		vsetAxStyle("coin");
+		vsetIS("click");
+	} else {
+		vsetAxStyle("coin greyout");
+	}
+
 }
 
 function vsetAxStyle(skin){
@@ -174,20 +233,35 @@ function vsetAxStyle(skin){
 	}
 }
 
-function vsetIS(reset){
-	if(reset){
+function vsetIS(info){
+	var str = "Coins:"+client.prog.score+"&nbsp Level:"+client.prog.level+"&nbsp Strike:"+client.prog.strike;	
+	document.getElementById("scoretext").innerHTML = str;	
+	
+	if(!info) {
+		return;
+	}
+
+	var infoelem = document.getElementById("infotext");
+	
+	if(info=="reset"){
 		client.prog.score = 0;
 		client.prog.strike = 0;
 		client.prog.acc = 0;
 		client.prog.level = 0;	
 
-		var infoelem = document.getElementById("infotext");
 		infoelem.innerHTML = "Click the answer:";	
 		vsetElemBlockDisplay(infoelem, true);
 		vsetBlockDisplay("scoretext", true);
 	}
-	var str = "Coins:"+client.prog.score+"&nbsp Level:"+client.prog.level+"&nbsp Strike:"+client.prog.strike;
-	document.getElementById("scoretext").innerHTML = str;
+	else if(info=="feedback"){
+		infoelem.innerHTML = "feedback: waiting ...";	
+	}
+	else if(info=="click"){
+		infoelem.innerHTML = "Click the answer:";			
+	} else {
+		infoelem.innerHTML = info;
+	}
+	
 }
 
 function vsetQA(n){
