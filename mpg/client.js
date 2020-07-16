@@ -40,6 +40,7 @@ function gameStart(){
 	vsetIconHide();
 	
 	client.quiz = menuInit(0);	
+	vsetBlockDisplay("player", false);
 	vsetQA(0);
 	setState("start");
 }
@@ -84,6 +85,7 @@ function checkAnswer(n){
 		switch(n) {
 			case 0:
 				vsetBlockDisplay("scoretext", false);
+				vsetBlockDisplay("player", false);
 				client.prog.qnum = 0;
 				vsetAxStyle("ib");
 				vsetQA(0);
@@ -91,6 +93,7 @@ function checkAnswer(n){
 				break;
 			case 1:
 				client.prog.qnum = 1;
+				vsetBlockDisplay("player", false);
 				vsetAxStyle("coin");
 				vsetQA(1);
 				setState("ready");
@@ -159,7 +162,7 @@ function getState(){
 }
 
 function feedbackAnim(res, num) {
-	var waitms = 1000;
+	var waitms = 3000;
 	vsetAnswerButtonsActive(false);
 	var msg = "feedback";
 	
