@@ -19,13 +19,13 @@ mpscene = (function () {
 // can global call to exportedItem1(99) runs internal fn
 // can global access value of exportedItem2.foo=..., exportedItem2.bar=ok17
 
-    return {
+/*    return {
         exportedItem1: internallyDefinedItem1,
         exportedItem2: internallyDefinedItem2
-    }
-})();
-
-		var input = {
+    }*/
+	
+	
+			var input = {
 			rx: 0,
 			ry: 0,           
             mx: 0,
@@ -44,7 +44,7 @@ mpscene = (function () {
 		var ecount = 0;
 
 		
-		function drawScene(canvas, ctx){
+	var drawScene =	function(canvas, ctx){
 		
 			// filled, erased then outlined
 			ctx.fillStyle = 'rgb(0, 255, 0)';
@@ -67,10 +67,10 @@ mpscene = (function () {
 			ctx.fillRect(150, 0, 150, 200);
 		
 			// images
-			var img = document.getElementById("leaves");
+			/*var img = document.getElementById("leaves");
 			ctx.drawImage(img, 150, 200, 150, 100);
 			var imga = document.getElementById("acoin");
-			ctx.drawImage(imga, 150, 150);
+			ctx.drawImage(imga, 150, 150);*/
 			
 			if (canvas.addEventListener) {                // For all major browsers, except IE 8 and earlier
 				canvas.addEventListener("click", function(e) { 
@@ -110,3 +110,11 @@ mpscene = (function () {
 			ecount++;
 			console.log(src);
 		}		
+
+
+return {
+        draw: drawScene
+    }
+	
+})();
+

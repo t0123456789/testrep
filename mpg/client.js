@@ -233,7 +233,7 @@ function vsetSceneDraw() {
 	if(!c) return;
 	var ctx = c.getContext("2d", { alpha: false });
 	if(ctx){
-		drawScene(c, ctx);
+		mpscene.draw(c, ctx);
 	} else {
 		console.log("Error: CanvasRenderingContext2D not valid.");
 	}  	  	
