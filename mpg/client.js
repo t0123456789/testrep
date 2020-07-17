@@ -4,7 +4,7 @@
 
 function menuInit(n){
 	
-	var defaultdata = { name:"default", steps:3, level:0, info:"test something",
+	var defaultdata = { name:"default", steps:3, level:0, info:"test single player",
 		arr:[
 			{ q: "Hello! Which player?", opt:[ "( \\__/ )<br>( ᵔ ᴥ ᵔ )", "/\\.../\\<br>(o . o)", "&nbsp;<br>~{'v'}~", "( )__( )<br>( ᵔ ᴥ ᵔ )" ], a:0, val:0 },
 			{ q: "2 x 3 = ?", opt:[ "5", "8", "6", "23" ], a:2, val:6 },
@@ -23,7 +23,17 @@ function menuInit(n){
 			{ q: "Finished!", opt:[ "reset", "next", "pet", "compete" ], a:0, val:0 },
 		]};
 		
+	var compmenu = { name:"compete", steps:3, level:0, info:"test multi player",
+		arr:[
+			{ q: "Loading other players! Join a game?", opt:[ "back", "g1", "g2", "g3" ], a:0, val:0 },
+			{ q: "2 x 4 = ?", opt:[ "5", "8", "6", "23" ], a:1, val:8 },
+			{ q: "5 + ? = 9", opt:[ "1", "4", "8", "5" ], a:1, val:4 },
+			{ q: "6 x 8 = ?", opt:[ "48", "68", "56", "58" ], a:0, val:48 },
+			{ q: "Finished!", opt:[ "reset", "next", "pet", "compete" ], a:0, val:0 },
+		]};
+		
 	if(n==1) { return scenemenu; }		
+	if(n==2) { return compmenu; }		
 	return defaultdata;
 }
 
@@ -103,11 +113,20 @@ function checkAnswer(n){
 				break;
 			case 2:
 				// show canvas scene
+				setState("pet");
+				client.quiz = menuInit(1);
+				client.prog.qnum = 0;
+				vsetAxStyle("ib");
+				vsetQA(0);
+				vsetBlockDisplay("qdiv", false);
+				vsetSceneBeforeElem("qdiv", true);
+				break;
 			case 3:
 				// multi player, get level & opponents
+				client.quiz = menuInit(2);
 				client.prog.qnum = 1;
 				vsetAxStyle("coin");
-				vsetQA(1);
+				vsetQA(0);
 				setState("ready");
 				break;
 			default:
@@ -195,6 +214,31 @@ function feedbackAnim(res, num) {
 	}
 }
 
+
+
+function vsetSceneBeforeElem(elemId, enable) {
+	var x1 = document.getElementById("scene");	
+	if(!x1){
+		var x2 = document.getElementById(elemId);
+		x2.insertAdjacentHTML('beforebegin', '<div id="scene"><canvas id="canvas" width="300" height="300">Your browser does not support the HTML5 canvas tag.</canvas></div>');	
+		x1 = document.getElementById("scene");	
+
+		vsetSceneDraw();
+	}
+	vsetElemBlockDisplay(x1, enable);
+}
+
+function vsetSceneDraw() {
+	var c = document.getElementById("canvas");
+	if(!c) return;
+	var ctx = c.getContext("2d", { alpha: false });
+	if(ctx){
+		drawScene(c, ctx);
+	} else {
+		console.log("Error: CanvasRenderingContext2D not valid.");
+	}  	  	
+}
+
 function vsetIconOnAnswer(iconSkin, n) {
 	var i = document.getElementById("icon");
 	i.style.display = "block";
@@ -246,10 +290,15 @@ function vsetAxStyle(skin){
 	}
 }
 
-function vsetIS(info){
+function vsetIS(info) {		
 	var str = "Coins:"+client.prog.score+"&nbsp Level:"+client.prog.level+"&nbsp Strike:"+client.prog.strike;	
-	document.getElementById("scoretext").innerHTML = str;	
+	document.getElementById("scoretext").innerHTML = str;
 	
+	if(client.prog.qnum>0 && client.prog.qnum<=client.quiz.steps) {
+		var progressmsg = client.prog.qnum+"/"+client.quiz.steps;
+		document.getElementById("qnum0").innerHTML = progressmsg;
+	}
+
 	if(!info) {
 		return;
 	}
@@ -280,7 +329,14 @@ function vsetIS(info){
 
 function vsetQA(n){
 	var qn = client.quiz.arr[client.prog.qnum];
-	var pq = document.getElementById("questiontext");
+	var pq;
+	
+	if(getState()=="pet") {
+		// print question in the info area, question div is replaced with canvas...
+		pq = document.getElementById("infotext");
+	} else {
+		pq = document.getElementById("questiontext");
+	}
 	pq.innerHTML = qn.q;
 	
 	var i;

@@ -138,7 +138,10 @@
 		-->
 		
 	<link rel="stylesheet" type="text/css" href="anim.css">
-		
+
+	<!-- test js fake namespace -->
+	<script src="namespace.js"></script>
+	
 	<!-- A minimum version script can be loaded in legacy browsers without syntax problems.-->
 	<!-- this script can be used to check version support and conditionally load features.-->	
 	<script src="es5script.js"></script>
@@ -155,14 +158,22 @@
 
 	<p id="statustext">Status text</p>
 	
+	<div id="firstdiv">
+	  This is the firstdiv element.
+	</div>
+	
 	<button onclick="es5toggleBlock('myDIV')">Click Me to toggle div element</button>
 	<div id="myDIV">
 	  This is my DIV element.
 	</div> 
-	<button onclick="es5toggleBlock('alphaimg')">Click Me to alpha image element</button>
+	<button onclick="es5toggleBlock('alphaimg')">Click Me to toggle alpha image element</button>
 	<p id="myTEXT">
 	  This is my p element.
 	</p> 
+	
+	<button onclick="es5toggleSceneBeforeElem('firstdiv')">Click Me to toggle scene b4 firstdiv element</button>
+
+	
 	
 	<div class='box'>css anim</div>
 	<button class='toggleButton' value='play'>Play</button>

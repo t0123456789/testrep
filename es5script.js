@@ -179,7 +179,7 @@ function isEnumerateDevicesSupported() {
 
 function es5toggleBlock(elemId) {
 	var x = document.getElementById(elemId);
-	if (x.style.display === "none") {
+	if (x.style.display == "none") {
 		x.style.display = "block";
 	} else {
 		x.style.display = "none";
@@ -190,7 +190,25 @@ function es5ImageOnElem(elemId, imgId) {
 	var x = document.getElementById(elemId);
 	var img = document.getElementById(imgId);
 	//x.getBoundingClientRect();
-	x.appendChild(img);
+	x.appendChild(img);	
+}
+
+// toggles element, if it doesn't exist, create it before element id2
+function es5toggleSceneBeforeElem(elemId) {
+	var x1 = document.getElementById("scene");	
+	if(!x1){
+		var x2 = document.getElementById(elemId);
+		x2.insertAdjacentHTML('beforebegin', '<div id="scene">scene div<canvas id="canvas" width="300" height="300">Your browser does not support the HTML5 canvas tag.</canvas></div>');	
+		x1 = document.getElementById("scene");	
+		x1.style.display = "block";	// show it on create
+		return;
+	}
+
+	if (x1.style.display == "none") {
+		x1.style.display = "block";
+	} else {
+		x1.style.display = "none";
+	}
 	
 }
 
@@ -250,6 +268,17 @@ function es5doIt(elemId, data){
 	checkAnimation();
 	
 	setupPlayCssAnim();
+	
+	
+	if(MyNamespaceObj) {
+		var fn = MyNamespaceObj.exportedItem1;
+		var fnret = MyNamespaceObj.exportedItem1(8);
+		var foo = MyNamespaceObj.exportedItem2.foo;
+		var bar = MyNamespaceObj.exportedItem2.bar;
+		strmsg = "MyNamespaceObj: "+ fnret + foo + bar;
+		console.log(strmsg);
+		display(strmsg);		
+	}
 
 	function display(msg) {
 		if(document.body) {				
@@ -268,4 +297,7 @@ function es5doIt(elemId, data){
 	}
 	
 }
+
+
+
 
