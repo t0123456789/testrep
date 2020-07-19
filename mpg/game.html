@@ -76,6 +76,14 @@
 		</div>
 	</div>
 	
+	<script>
+		window.onload = function() {	  		
+		  var counter = 0;
+		  es5doIt("statustext", counter);
+		  
+		  gameStart();
+		}
+	</script>
 	
 	<div style="width:500px;height:30px"></div>
 	<p id="statustext">Status text</p>
@@ -99,14 +107,6 @@
 	<button onclick="es5toggleBlock('alphaimg')">Click to test toggle alpha image element</button>
 	<button onclick="es5ImageOnElem('a1', 'alphaimg')">Click to locate the element and draw alpha image on it.</button>
 
-	<script>
-		window.onload = function() {	  		
-		  var counter = 0;
-		  es5doIt("statustext", counter);
-		  
-		  gameStart();
-		}
-	</script>
 
 	
 

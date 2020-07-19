@@ -15,12 +15,17 @@ function menuInit(n){
 		
 	var scenemenu = { name:"pets", steps:3, level:0, info:"test scene",
 		arr:[
-			{ q: "Pets love to relax after training! Something to do?", opt:[ "back", "decor", "shop", "items" ], a:0, val:0 },
-			{ q: "Plan your day: 1st", opt:[ "feed", "clean", "exercise", "treat" ], a:0, val:0 },
-			{ q: "Plan your day: 2nd", opt:[ "feed", "clean", "exercise", "treat" ], a:0, val:0 },
-			{ q: "Plan your day: 3rd", opt:[ "feed", "clean", "exercise", "treat" ], a:0, val:0 },
-			{ q: "Ready?", opt:[ "forget it", "replan", "do it", " " ], a:0, val:0 },
+			{ q: "Pets love to relax after training! Something to do?", opt:[ "back", "shop", "decor", "items" ], 
+																		to:[ 1, 4, 2, 3 ], a:0, val:0 },
 			{ q: "Finished!", opt:[ "reset", "next", "pet", "compete" ], a:0, val:0 },
+			{ q: "Change the view to floor or wall to arrange items", opt:[ "done", "floor", "wall", "normal" ], 
+																		to:[ 0, 2, 2, 2 ], a:0, val:0 },
+			{ q: "Click on an item to see more actions", opt:[ "done", "feed", "clean", "brush" ], 
+																		to:[ 0, 3, 3, 3 ], a:0, val:0 },
+			{ q: "What would you like to buy?", opt:[ "done", "food", "ball", "paint" ], 
+																		to:[ 0, 4, 4, 4 ], a:0, val:0 },
+			{ q: "What would you like to buy?", opt:[ "done", "food", "autoclean", "bow" ], 
+																		to:[ 0, 5, 5, 5 ], a:0, val:0 },
 		]};
 		
 	var compmenu = { name:"compete", steps:3, level:0, info:"test multi player",
@@ -84,7 +89,7 @@ function startTimer() {
 }
 
 function checkAnswer(n){
-	var refqn = client.prog.qnum;	
+	var qn = client.prog.qnum;	
 	// js assign op: For primitive types, makes a copy with same value. For object, makes ref to same underlying data
 
 	switch(getState()) {
@@ -134,7 +139,17 @@ function checkAnswer(n){
 		}
 		break;
 	case "ready":
-		var q = client.quiz.arr[refqn];
+		var q = client.quiz.arr[qn];
+		if(q.a==n){
+			updateScore(q.val);
+		}else{
+			updateStrike(1);
+		}
+		vsetIS();
+		break;
+	}
+	case "pet":
+		var q = client.quiz.arr[qn];
 		if(q.a==n){
 			updateScore(q.val);
 		}else{

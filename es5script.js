@@ -1,5 +1,5 @@
 // The standard for JavaScript is ECMAScript (possible versions could be ECMAScript 3, 5, 6 and 7)
-// As of 2012, all modern browsers fully support ECMAScript 5.1. 
+// As of 2012, all modern browsers fully support ECMAScript 5.1. (aka Ecma-262 Edition 5.1, its also the target for emscripten)
 // Older browsers support at least ECMAScript 3. (explicit JavaScript versioning was Mozilla-specific & deprecated since JavaScript 1.8.5)
 
 "use strict";	// "use strict" directive is new in ECMAScript version 5, ignored in <ECMA5, in ECMA6 it is default.
@@ -7,7 +7,7 @@
 // check js version dependent feature support for ES6 syntax (eg. Symbol objects, class keyword and arrow functions) 
 // 		this is done using the eval() function or other equivalents (e.g. Function() ), 
 //  	because writing invalid syntax will stop the script before its execution. 
-//		ES6 = ECMAScript version 6, maybe aka ECMAScript 2015 
+//		ES6 = ECMAScript version 6 (aka ECMAScript 2015 or Ecma-262 Edition 6)
 function checkJsFeatures() {
     //if (typeof Symbol == "undefined") return false;
     try {
