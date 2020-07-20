@@ -1,0 +1,90 @@
+
+<!doctype html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8">
+</head>
+
+<body>
+
+<script>
+
+	window.onload = function() {	  				  
+			  wsCtor();
+			}
+
+	var wsc = {
+		nmsg: 0,
+		};
+			
+	function wsCtor() {
+		// Create WebSocket connection.
+		//var socket = new WebSocket('ws://localhost:8080');
+		//wsc.socket = new WebSocket('ws://localhost:8080');
+		wsc.socket = new WebSocket('ws://vaulted-spangled-tulip.glitch.me');
+
+//https://vaulted-spangled-tulip.glitch.me
+
+		// Connection opened
+		wsc.socket.addEventListener('open', function (event) {
+			wsc.socket.send('Hello Server from wsCtor!');
+		});
+
+		// Listen for messages
+		wsc.socket.addEventListener('message', function (event) {
+			wsc.nmsg++;
+			console.log('Message from server ', event.data);
+			var msg = "Message from server ("+wsc.nmsg+"): "+ event.data;
+			display(msg, "debug");
+		});	
+	}
+
+	function display(msg, elemId) {
+		if(document.body) {				
+			var p = document.getElementById(elemId);
+			if(p){
+				p.innerHTML = msg;
+			} else {
+				p = document.createElement('p');
+				p.setAttribute("id", elemId);
+				p.innerHTML = msg;
+				document.body.appendChild(p);
+			}
+		}else{
+			msg += ' document.body is null atm.';
+			console.log(msg);
+		}
+	}
+	
+	function httpReqCtor() {
+		// Create a request variable and assign a new XMLHttpRequest object to it.
+		var request = new XMLHttpRequest();
+
+		// Open a new connection, using the GET request on the URL endpoint
+		request.open('GET', 'https://ghibliapi.herokuapp.com/films', true);
+		
+		request.onload = function () {
+			// Begin accessing JSON data here	
+			var data = JSON.parse(this.response);
+			
+			if (request.status >= 200 && request.status < 400) {
+				console.log('ok')
+			  //data.forEach((movie) => {
+			//	console.log(movie.title)
+			  //})
+			} else {
+			  console.log('error')
+			}
+		}
+
+		// Send request
+		request.send();
+	}
+
+	
+</script>
+
+</body>
+
+</html>
