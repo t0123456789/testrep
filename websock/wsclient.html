@@ -8,6 +8,10 @@
 
 <body>
 
+<button onclick="wsCtor('ws://localhost:8080')">Click to test local svr</button>
+<button onclick="wsCtor('wss://echo.websocket.org/')">Click to test external echo svr</button>
+<button onclick="wsCtor('wss://vaulted-spangled-tulip.glitch.me')">Click to test glitch svr</button>
+
 <script>
 
 	window.onload = function() {	  				  
@@ -18,19 +22,55 @@
 		nmsg: 0,
 		};
 			
-	function wsCtor() {
-		// Create WebSocket connection.
-		//var socket = new WebSocket('ws://localhost:8080');
-		//wsc.socket = new WebSocket('ws://localhost:8080');
-		//wsc.socket = new WebSocket('ws://vaulted-spangled-tulip.glitch.me');
-		wsc.socket = new WebSocket('wss://vaulted-spangled-tulip.glitch.me');
-		// wss://, that indicates you want a secure websocket connection, insecure WebSocket connection may not be initiated from a page loaded over HTTPS in some browsers
+	function wsCtor(uri) {
+		if(!WebSocket) {
+			var msg = "WebSocket api not supported.";
+			console.log(msg);
+			display(msg, "debug");
+			return;
+		}
+		
+		if(uri){
+			// recreate WebSocket connection.
+			var msg = "";
+			if(wsc.socket){		
+				console.log('Close WebSocket object...');
+				msg+="Close WebSocket object...";
+				display(msg, "debug");
+				wsc.socket.close(1000, "Resetting socket... disconnection.");
+			}
+			wsc.socket = new WebSocket(uri);
+			console.log('Reset WebSocket object to ', uri);
+			msg+='Reset WebSocket object to '+ uri;
+			display(msg, "debug");
+			
+		} else {		
+			// Create WebSocket connection.
+			var localUri = "ws://localhost:8080";
+			var testUri = "wss://echo.websocket.org/";
+			var glitchUri = "wss://vaulted-spangled-tulip.glitch.me";
+			wsc.socket = new WebSocket(glitchUri);
+			//wsc.socket = new WebSocket(localUri);
 
-//https://vaulted-spangled-tulip.glitch.me
+			//wsc.socket = new WebSocket('ws://localhost:8080');
+			//wsc.socket = new WebSocket('ws://vaulted-spangled-tulip.glitch.me');
+			//wsc.socket = new WebSocket('wss://vaulted-spangled-tulip.glitch.me');
+			// wss://, that indicates you want a secure websocket connection, an insecure WebSocket connection may not be initiated from a page loaded over HTTPS in some browsers
+			//https://vaulted-spangled-tulip.glitch.me
+		}
+
+		if(!wsc.socket) {
+			var msg = 'WebSocket object create failed.';
+			console.log(msg);
+			display(msg, "debug1");
+			return;
+		}
 
 		// Connection opened
 		wsc.socket.addEventListener('open', function (event) {
 			wsc.socket.send('Hello Server from wsCtor!');
+			var msg = "WebSocket open: event,protocol: "+event+","+wsc.socket.protocol;
+			display(msg, "debug2");
 		});
 
 		// Listen for messages
@@ -38,8 +78,20 @@
 			wsc.nmsg++;
 			console.log('Message from server ', event.data);
 			var msg = "Message from server ("+wsc.nmsg+"): "+ event.data;
-			display(msg, "debug");
+			display(msg, "debug3");
 		});	
+		
+		wsc.socket.onerror = function(event) {
+			var msg = "WebSocket error observed: "+event;
+			console.log(msg);
+			display(msg, "debug4");
+		};
+		
+		wsc.socket.onclose = function(event) {
+			var msg = "WebSocket is closed now: "+event;
+			console.log(msg);
+			display(msg, "debug5");
+		};
 	}
 
 	function display(msg, elemId) {
