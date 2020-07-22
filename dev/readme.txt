@@ -81,6 +81,41 @@ use hosted node server in client js:
 
 
 
+
+
+
+Browser implementation: https://en.wikipedia.org/wiki/WebSocket
+	A secure version of the WebSocket protocol is implemented in Firefox 6,[14] Safari 6, Google Chrome 14,[15] Opera 12.10 and Internet Explorer 10.[16] A detailed protocol test suite report[17] lists the conformance of those browsers to specific protocol aspects.
+
+	An older, less secure version of the protocol was implemented in Opera 11 and Safari 5, as well as the mobile version of Safari in iOS 4.2.[18] The BlackBerry Browser in OS7 implements WebSockets.[19] Because of vulnerabilities, it was disabled in Firefox 4 and 5,[20] and Opera 11.[21]
+
+	Each protocol version has different handshake for upgrade. The handshake starts with an HTTP request/response, allowing servers to handle HTTP connections as well as WebSocket connections on the same port. Once the connection is established, communication switches to a bidirectional binary protocol which does not conform to the HTTP protocol. 
+
+	// Some HyBi clients (such as the Flash fallback and older Chrome and iOS versions) do not support binary data 
+	// Safari browser seems to change from the hixie protocol to RFC only with version 6.
+	//The request header in the handshake according to the RFC contains
+
+	Sec-WebSocket-Key: x3JJHMbDL1EzLkh9GBhXDw==
+	Sec-WebSocket-Protocol: chat, superchat
+	Sec-WebSocket-Version: 13
+
+	hixie 76 draft uses something like
+
+	Sec-WebSocket-Key1: 8crO\J;4 136bp&m?b0441
+	Sec-WebSocket-Key2: 2746E 3218 \4/I2PmI |
+
+	https://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-17#section-1.3
+	
+	https://stackoverflow.com/questions/9680820/how-to-know-which-websocket-version-the-client-uses
+
+	py implementation:
+	https://www.tornadoweb.org/en/branch2.2/_modules/tornado/websocket.html
+
+
+
+
+
+
 how to update old ipad/phone/pod to the max supported IOS:
 	https://discussions.apple.com/thread/8410410
 	

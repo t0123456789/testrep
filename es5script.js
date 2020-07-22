@@ -277,10 +277,10 @@ function es5doIt(elemId, data){
 		var bar = MyNamespaceObj.exportedItem2.bar;
 		strmsg = "MyNamespaceObj: "+ fnret + foo + bar;
 		console.log(strmsg);
-		display(strmsg);		
+		display(strmsg, "namespacetest");		
 	}
 
-	function display(msg) {
+	function display(msg, elemId) {
 		if(document.body) {				
 			var p = document.getElementById(elemId);
 			if(p){

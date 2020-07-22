@@ -51,10 +51,6 @@
 			var glitchUri = "wss://vaulted-spangled-tulip.glitch.me";
 			wsc.socket = new WebSocket(glitchUri);
 			//wsc.socket = new WebSocket(localUri);
-
-			//wsc.socket = new WebSocket('ws://localhost:8080');
-			//wsc.socket = new WebSocket('ws://vaulted-spangled-tulip.glitch.me');
-			//wsc.socket = new WebSocket('wss://vaulted-spangled-tulip.glitch.me');
 			// wss://, that indicates you want a secure websocket connection, an insecure WebSocket connection may not be initiated from a page loaded over HTTPS in some browsers
 			//https://vaulted-spangled-tulip.glitch.me
 		}
@@ -71,6 +67,7 @@
 			wsc.socket.send('Hello Server from wsCtor!');
 			var msg = "WebSocket open: event,protocol: "+event+","+wsc.socket.protocol;
 			display(msg, "debug2");
+			console.log(msg);
 		});
 
 		// Listen for messages

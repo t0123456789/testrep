@@ -4,20 +4,20 @@
 
 function menuInit(n){
 	
-	var defaultdata = { name:"default", steps:3, level:0, info:"test single player",
+	var defaultdata = { name:"default", steps:3, level:0, info:"This is a practice level for brain training + pet game. After completing this you will have earned some coins and see various options to relax with your pet or train some more!",
 		arr:[
 			{ q: "Hello! Which player?", opt:[ "( \\__/ )<br>( ᵔ ᴥ ᵔ )", "/\\.../\\<br>(o . o)", "&nbsp;<br>~{'v'}~", "( )__( )<br>( ᵔ ᴥ ᵔ )" ], a:0, val:0 },
+//			{ q: "2 x 3 = ?", opt:[ "5", "8", "6", '<img id="star" width="30" height="30" src="sprite/star.jpg">' ], a:2, val:6 },
 			{ q: "2 x 3 = ?", opt:[ "5", "8", "6", "23" ], a:2, val:6 },
 			{ q: "5 + ? = 10", opt:[ "1", "4", "8", "5" ], a:3, val:5 },
 			{ q: "7 x 8 = ?", opt:[ "48", "68", "56", "58" ], a:2, val:56 },
 			{ q: "Finished!", opt:[ "reset", "next", "pet", "compete" ], a:0, val:0 },
-		]};
+		]};	
 		
-	var scenemenu = { name:"pets", steps:3, level:0, info:"test scene",
+	var scenemenu = { name:"pets", steps:4, level:0, info:"This is the place to interact with your pet. (button links are not finished yet)",
 		arr:[
 			{ q: "Pets love to relax after training! Something to do?", opt:[ "back", "shop", "decor", "items" ], 
-																		to:[ 1, 4, 2, 3 ], a:0, val:0 },
-			{ q: "Finished!", opt:[ "reset", "next", "pet", "compete" ], a:0, val:0 },
+																		to:[ 5, 4, 1, 2 ], a:0, val:0 },
 			{ q: "Change the view to floor or wall to arrange items", opt:[ "done", "floor", "wall", "normal" ], 
 																		to:[ 0, 2, 2, 2 ], a:0, val:0 },
 			{ q: "Click on an item to see more actions", opt:[ "done", "feed", "clean", "brush" ], 
@@ -26,6 +26,7 @@ function menuInit(n){
 																		to:[ 0, 4, 4, 4 ], a:0, val:0 },
 			{ q: "What would you like to buy?", opt:[ "done", "food", "autoclean", "bow" ], 
 																		to:[ 0, 5, 5, 5 ], a:0, val:0 },
+			{ q: "Finished!", opt:[ "reset", "next", "pet", "compete" ], a:0, val:0 },
 		]};
 		
 	var compmenu = { name:"compete", steps:3, level:0, info:"test multi player",
@@ -37,8 +38,19 @@ function menuInit(n){
 			{ q: "Finished!", opt:[ "reset", "next", "pet", "compete" ], a:0, val:0 },
 		]};
 		
+	var quiz3 = { name:"quiz", steps:4, level:0, info:"This is a random example quiz.",
+		arr:[
+			{ q: "not showing this intro atm. choice of extra bufs/anything?...", opt:[ "0", "1", "2", "3" ], a:0, val:0 },
+			{ q: "2 x 3 = ?", opt:[ "5", "8", "6", "23" ], a:2, val:6 },
+			{ q: "2 x 3 = ?", opt:[ "5", "8", "6", "23" ], a:2, val:6 },
+			{ q: "5 + ? = 10", opt:[ "1", "4", "8", "5" ], a:3, val:5 },
+			{ q: "7 x 8 = ?", opt:[ "48", "68", "56", "58" ], a:2, val:56 },
+			{ q: "Finished!", opt:[ "reset", "next", "pet", "compete" ], a:0, val:0 },
+		]};
+		
 	if(n==1) { return scenemenu; }		
 	if(n==2) { return compmenu; }		
+	if(n==3) { return quiz3; }		
 	return defaultdata;
 }
 
@@ -102,16 +114,22 @@ function checkAnswer(n){
 	case "finish":
 		switch(n) {
 			case 0:
+				client.quiz = menuInit(0);
 				vsetBlockDisplay("scoretext", false);
 				vsetBlockDisplay("player", false);
+				vsetBlockDisplay("qdiv", true);
+				vsetSceneBeforeElem("qdiv", false);
 				client.prog.qnum = 0;
 				vsetAxStyle("ib");
 				vsetQA(0);
 				setState("start");
 				break;
 			case 1:
-				// single player, get level
+				// single player 
+				client.quiz = menuInit(3);	// get random quiz instead of default
 				client.prog.qnum = 1;
+				vsetBlockDisplay("qdiv", true);
+				vsetSceneBeforeElem("qdiv", false);
 				vsetAxStyle("coin");
 				vsetQA(1);
 				setState("ready");
@@ -130,6 +148,8 @@ function checkAnswer(n){
 				// multi player, get level & opponents
 				client.quiz = menuInit(2);
 				client.prog.qnum = 1;
+				vsetBlockDisplay("qdiv", true);
+				vsetSceneBeforeElem("qdiv", false);
 				vsetAxStyle("coin");
 				vsetQA(0);
 				setState("ready");
@@ -147,14 +167,9 @@ function checkAnswer(n){
 		}
 		vsetIS();
 		break;
-	}
 	case "pet":
 		var q = client.quiz.arr[qn];
-		if(q.a==n){
-			updateScore(q.val);
-		}else{
-			updateStrike(1);
-		}
+		nextQuestion();
 		vsetIS();
 		break;
 	}

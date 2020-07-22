@@ -10,6 +10,8 @@ var uidnext=0;
  
 const wss = new WebSocket.Server({ port: 8080 })
 
+	//ws.options.protocolVersion 
+
 // check connection is responsive by sending ping message to each client every 30 secs
 const interval = setInterval(function ping() {
 	//msint = parseInt(Date.now());
