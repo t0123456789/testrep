@@ -11,6 +11,7 @@
 <button onclick="wsCtor('ws://localhost:8080')">Click to test local svr</button>
 <button onclick="wsCtor('wss://echo.websocket.org/')">Click to test external echo svr</button>
 <button onclick="wsCtor('wss://vaulted-spangled-tulip.glitch.me')">Click to test glitch svr</button>
+<button onclick="xhrCtor('https://localhost:8080')">Click to test xhr local svr</button>
 
 <script>
 
@@ -20,8 +21,32 @@
 
 	var wsc = {
 		nmsg: 0,
+		xhr: null,
+		httpsuri: null,
+		uri: null,
 		};
-			
+		
+	function xhrCtor(uri) {
+		// older browsers should support Ajax (method of updating page parts via Asynchronous JavaScript And XML, XMLHttpRequest)
+		// WebSocket should be faster if available, also Ajax is being replaced in modern browsers with Fetch API...
+		wsc.xhr = new XMLHttpRequest();
+		wsc.httpsuri = "http"+ uri.substring(uri.indexOf(":") + 1) + "/echo";
+		//var url = new URL('https://google.com/search');
+		wsc.xhr.open("POST", wsc.httpsuri, true);
+		//wsc.xhr.open("POST", url, true);
+	
+		//Send the proper header information along with the request
+		wsc.xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+		wsc.xhr.onreadystatechange = function() { // Call a function when the state changes.
+			console.log("xhr.onreadystatechange status, state: ", this.status, this.readyState);
+			if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+				// Request finished. Do processing here.
+			}
+		}
+		wsc.xhr.send("foo=bar&lorem=ipsum");
+	}
+	
 	function wsCtor(uri) {
 		if(!WebSocket) {
 			var msg = "WebSocket api not supported.";
@@ -31,6 +56,7 @@
 		}
 		
 		if(uri){
+			wsc.uri = uri;
 			// recreate WebSocket connection.
 			var msg = "";
 			if(wsc.socket){		
@@ -49,7 +75,8 @@
 			var localUri = "ws://localhost:8080";
 			var testUri = "wss://echo.websocket.org/";
 			var glitchUri = "wss://vaulted-spangled-tulip.glitch.me";
-			wsc.socket = new WebSocket(glitchUri);
+			wsc.uri = glitchUri;
+			wsc.socket = new WebSocket(wsc.uri);
 			//wsc.socket = new WebSocket(localUri);
 			// wss://, that indicates you want a secure websocket connection, an insecure WebSocket connection may not be initiated from a page loaded over HTTPS in some browsers
 			//https://vaulted-spangled-tulip.glitch.me
@@ -85,9 +112,18 @@
 		};
 		
 		wsc.socket.onclose = function(event) {
-			var msg = "WebSocket is closed now: "+event;
+			var msg = "WebSocket is closed now: "+event+" messages received:"+wsc.nmsg;
+			
+			if(wsc.nmsg==0) {
+				msg+=" Server did not respond, try xmlHttpRequest "+wsc.uri;
+				xhrCtor(wsc.uri);
+			}
+			
+			wsc.nmsg=0;
 			console.log(msg);
 			display(msg, "debug5");
+			
+			
 		};
 	}
 
