@@ -15,16 +15,55 @@
 <button onclick="playAudio()" type="button">Play Audio</button>
 <button onclick="pauseAudio()" type="button">Pause Audio</button> 
 
+<p>Click the buttons to play the audio, if ended.</p>
+<button onclick="playAudioFast()" type="button">Play Audio</button>
+<button onclick="playAudioSlow()" type="button">Play Audio</button>
+
+<p>Click the buttons to play the audio.</p>
+<button onclick="playAudioBackwards()" type="button">Play Audio</button>
+<button onclick="playAudioLoop()" type="button">Play Audio</button>
+
+
 <script>
 var x = document.getElementById("myAudio"); 
 
-function playAudio() { 
+function playAudio() {
+  x.loop = false;
+  x.playbackRate = 1;  
   x.play(); 
 } 
 
 function pauseAudio() { 
   x.pause(); 
 } 
+
+function playAudioFast() { 
+	if(x.ended) {
+		x.playbackRate = 2; 
+		x.play(); 
+	}
+} 
+
+function playAudioSlow() { 
+	if(x.ended) { 
+	  x.playbackRate = 0.25; 
+	  x.play(); 
+	 }
+} 
+
+function playAudioLoop() { 
+  //x.pause(); 
+  x.playbackRate = 1; 
+  x.loop = true;
+  x.play(); 
+} 
+
+function playAudioBackwards() { 
+  //x.pause(); 
+  x.playbackRate = -1; 
+  x.play(); 
+} 
+
 </script>
 
 
